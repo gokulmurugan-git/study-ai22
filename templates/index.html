@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StudyMate — Study & Learning</title>
+<style>
+:root {
+  --a: #7c3aed; --b: #06b6d4; --ink:#172033; --muted:#697386;
+  --surface:rgba(255,255,255,.88); --line:rgba(23,32,51,.10);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);
+background:radial-gradient(circle at 10% 10%, color-mix(in srgb,var(--a) 18%,transparent), transparent 35%),
+radial-gradient(circle at 90% 85%, color-mix(in srgb,var(--b) 18%,transparent), transparent 35%),#f6f8fc;}
+.app{min-height:100%;display:grid;grid-template-rows:auto 1fr auto}
+.top{padding:18px 24px;border-bottom:1px solid var(--line);backdrop-filter:blur(18px);background:rgba(255,255,255,.66);
+display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800}
+.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--a),var(--b));display:grid;place-items:center;color:#fff;box-shadow:0 10px 25px color-mix(in srgb,var(--a) 25%,transparent)}
+.badge{font-size:12px;padding:7px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--muted)}
+.main{width:min(1120px,94vw);margin:0 auto;padding:24px 0;display:grid;gap:18px;min-height:0}
+.hero{padding:18px 20px;border:1px solid var(--line);border-radius:24px;background:var(--surface);box-shadow:0 14px 50px rgba(20,30,50,.06)}
+.hero h1{margin:0 0 5px;font-size:clamp(24px,4vw,36px)}
+.hero p{margin:0;color:var(--muted)}
+.chat{min-height:0;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.84);overflow:hidden;box-shadow:0 18px 60px rgba(20,30,50,.07)}
+.messages{flex:1;min-height:260px;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
+.msg{max-width:min(780px,88%);padding:13px 16px;border-radius:18px;line-height:1.55;white-space:pre-wrap;word-wrap:break-word}
+.bot{align-self:flex-start;background:#f1f4f9;border-bottom-left-radius:6px}
+.user{align-self:flex-end;background:linear-gradient(135deg,var(--a),var(--b));color:#fff;border-bottom-right-radius:6px}
+.composer{padding:14px;border-top:1px solid var(--line);display:flex;gap:10px;background:rgba(255,255,255,.92)}
+textarea{flex:1;resize:none;min-height:48px;max-height:150px;border:1px solid var(--line);border-radius:16px;padding:13px 15px;font:inherit;outline:none;background:#fff}
+textarea:focus{border-color:var(--a);box-shadow:0 0 0 4px color-mix(in srgb,var(--a) 12%,transparent)}
+button{border:0;border-radius:15px;padding:0 20px;background:linear-gradient(135deg,var(--a),var(--b));color:#fff;font-weight:800;cursor:pointer}
+button:disabled{opacity:.55;cursor:not-allowed}
+.hint{font-size:12px;color:var(--muted);padding:0 4px 10px}
+.layout-left-rail .main{grid-template-columns:180px 1fr}
+.layout-left-rail .hero{grid-column:1 / -1}
+.layout-left-rail .chat{grid-column:2}
+.layout-left-rail .main:before{content:"TOPICS\\A\\AStudy & Learning\\A\\AAsk a question\\A\\AGet a clear explanation";white-space:pre-wrap;padding:20px;border:1px solid var(--line);border-radius:24px;background:var(--surface);color:var(--muted);line-height:1.8}
+.layout-center-card .main{max-width:900px}
+.layout-split .main{grid-template-columns:260px 1fr}
+.layout-split .hero{grid-column:1 / -1}
+.layout-split .main:before{content:"FOCUS\\A\\AStudy & Learning\\A\\AStay on topic\\A\\AAsk follow-ups";white-space:pre-wrap;padding:20px;border:1px solid var(--line);border-radius:24px;background:var(--surface);color:var(--muted);line-height:1.9}
+.layout-split .chat{grid-column:2}
+.layout-bottom-dock .main{max-width:980px}
+.layout-minimal .top{border:0;background:transparent}
+.layout-minimal .hero{background:transparent;border:0;box-shadow:none;padding-left:0}
+.layout-notebook .chat{background:linear-gradient(#fff,#fff) padding-box,repeating-linear-gradient(#fff,#fff 31px,#e8edf5 32px) border-box}
+.layout-dashboard .hero{border-radius:16px}
+.layout-event-board .hero,.layout-event-board .chat{border-radius:12px}
+.layout-finance-grid .hero{display:flex;justify-content:space-between;align-items:center;gap:20px}
+@media(max-width:780px){
+ .main,.layout-left-rail .main,.layout-split .main{display:flex;flex-direction:column;padding:14px 0}
+ .layout-left-rail .main:before,.layout-split .main:before{display:none}
+ .messages{padding:15px}
+ .msg{max-width:92%}
+ .composer{position:sticky;bottom:0}
+ .top{padding:14px 16px}
+ .badge{display:none}
+}
+</style>
+</head>
+<body class="layout-left-rail">
+<div class="app">
+<header class="top">
+  <div class="brand"><div class="logo">✦</div><div>StudyMate</div></div>
+  <div class="badge">Study & Learning</div>
+</header>
+<main class="main">
+  <section class="hero"><h1>StudyMate</h1><p>Your focused AI assistant for study & learning.</p></section>
+  <section class="chat">
+    <div id="messages" class="messages">
+      <div class="msg bot">Hi! I’m StudyMate. Ask me anything related to study & learning.</div>
+    </div>
+    <div class="hint">Press Enter to send • Shift+Enter for a new line</div>
+    <form id="form" class="composer">
+      <textarea id="input" placeholder="Type your question…" aria-label="Question"></textarea>
+      <button id="send" type="submit">Send</button>
+    </form>
+  </section>
+</main>
+</div>
+<script>
+const form=document.getElementById("form"), input=document.getElementById("input");
+const messages=document.getElementById("messages"), send=document.getElementById("send");
+function add(text,who){const el=document.createElement("div");el.className="msg "+who;el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;return el}
+input.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();form.requestSubmit()}});
+input.addEventListener("input",()=>{input.style.height="auto";input.style.height=Math.min(input.scrollHeight,150)+"px"});
+form.addEventListener("submit",async e=>{
+ e.preventDefault(); const text=input.value.trim(); if(!text||send.disabled)return;
+ add(text,"user"); input.value=""; input.style.height="48px"; send.disabled=true;
+ const pending=add("Thinking…","bot");
+ try{
+   const r=await fetch("/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:text})});
+   const data=await r.json(); pending.textContent=data.answer||data.error||"Something went wrong.";
+ }catch(err){pending.textContent="Unable to connect to the server. Please try again."}
+ finally{send.disabled=false;input.focus();}
+});
+</script>
+</body>
+</html>
